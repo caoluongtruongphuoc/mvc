@@ -1,15 +1,16 @@
 <?php
 
+namespace App;
+
 class Router
 {
-
-    static public function parse($url, $request)
+    public static function parse($url, $request)
     {
         $url = trim($url);
 
         if ($url == "/mvc/")
         {
-            $request->controller = "tasks";
+            $request->controller = "Task";
             $request->action = "index";
             $request->params = [];
         }
@@ -24,4 +25,3 @@ class Router
 
     }
 }
-?>

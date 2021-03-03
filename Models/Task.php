@@ -1,4 +1,10 @@
 <?php
+
+namespace App\Models;
+
+use App\Core\Model;
+use App\Config\Database;
+
 class Task extends Model
 {
     public function create($title, $description)

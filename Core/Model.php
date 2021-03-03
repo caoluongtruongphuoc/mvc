@@ -1,6 +1,8 @@
 <?php
-    class Model
-    {
 
-    }
-?>
+namespace App\Core;
+
+class Model
+{
+
+}
