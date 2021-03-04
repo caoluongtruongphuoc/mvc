@@ -2,6 +2,10 @@
 
 namespace App\Core;
 
+use App\Config\Database;
+use App\Core\Model;
+use PDO;
+
 class ResourceModel implements ResourceModelInterface
 {
     private $table;
@@ -19,9 +23,10 @@ class ResourceModel implements ResourceModelInterface
     //override
     public function save($model) 
     {
-        //get properties
+        //get properties, ko get đc nếu các thuộc tính là private nên để là protected
         $properties = $model->getProperties();
-
+        
+        var_dump($properties);
         //camelCase sang under_score
         $callBack = function ($a) {
             return "_" . $a[0];
@@ -60,7 +65,7 @@ class ResourceModel implements ResourceModelInterface
         $updateString = implode(", ", $updateEle);
 
         // nếu có id thì update nếu chưa thì thêm
-        if ($model->id == null) {
+        if ($model->getId() == null) {
             $sql= "INSERT INTO $this->table VALUES ($insertString, :created_at, :updated_at)";
             $req = Database::getBdd()->prepare($sql);
 
@@ -72,8 +77,8 @@ class ResourceModel implements ResourceModelInterface
             // hợp 2 mảng thuộc tính vs date
             $arrayMerge = array_merge($properties, $date);
 
+            // cần phải chỉnh thứ tự cột trong mysql sao cho tương ứng trong model
             return $req->execute($arrayMerge);
-
         } else {
             $sql = "UPDATE $this->table SET $updateString, updated_at = :updated_at WHERE id = :id";
             $req = Database::getBdd()->prepare($sql);
@@ -95,13 +100,15 @@ class ResourceModel implements ResourceModelInterface
         $sql = "DELETE FROM $this->table WHERE id = $model->id";
         $req = Database::getBdd()->prepare($sql);
 
-        return $req->execute([$model->id]);
+        return $req->execute();
     }
 
     public function getById($id) 
     {
-        $query = "SELECT * FROM $this->table WHERE id = $id";
+        $class = get_class($this->model);
+        $sql = "SELECT * FROM $this->table WHERE id = $id";
         $req = Database::getBdd()->prepare($sql);
+        $req->setFetchMode(PDO::FETCH_OBJ);
         $req->execute();
 
         return $req->fetch();
@@ -111,6 +118,7 @@ class ResourceModel implements ResourceModelInterface
     {
         $sql = "SELECT * FROM $this->table";
         $req = Database::getBdd()->prepare($sql);
+        $req->setFetchMode(PDO::FETCH_OBJ);
         $req->execute();
 
         return $req->fetchAll();

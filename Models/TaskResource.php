@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Core\ResourceModel;
+use App\Models\Task;
 
 class TaskResource extends ResourceModel
 {
     public function __construct() 
     {
-        parent::_init("tasks", null, new Task());    
+        $this->_init("tasks", null, new Task());    
     }
 }

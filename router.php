@@ -8,20 +8,16 @@ class Router
     {
         $url = trim($url);
 
-        if ($url == "/mvc/")
-        {
-            $request->controller = "Task";
+        if ($url == "/mvc/") {
+            $request->controller = ucfirst("task");
             $request->action = "index";
             $request->params = [];
-        }
-        else
-        {
+        } else {
             $explode_url = explode('/', $url);
             $explode_url = array_slice($explode_url, 2);
-            $request->controller = $explode_url[0];
+            $request->controller = ucfirst($explode_url[0]);
             $request->action = $explode_url[1];
             $request->params = array_slice($explode_url, 2);
         }
-
     }
 }

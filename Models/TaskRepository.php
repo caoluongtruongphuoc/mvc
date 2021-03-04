@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
+
+use App\Models\TaskResource;
 
 class TaskRepository
 {
     public function save($model) 
     {
         $taskRs = new TaskResource();
-        $taskRs->save($model);
+
+        return $taskRs->save($model);
     }
 
     // getById
@@ -21,14 +24,13 @@ class TaskRepository
     public function delete($model)
     {
         $taskRs = new TaskResource();
-        $taskRs->delete($model);
+        return $taskRs->delete($model);
     }
 
     // theo biểu đồ là getAll($model)
     public function getAll()
     {
         $taskRs = new TaskResource();
-        
         return $taskRs->getAll();
     }
 }

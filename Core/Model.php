@@ -4,7 +4,7 @@ namespace App\Core;
 
 class Model
 {
-    protected function getProperties() 
+    public function getProperties() 
     {
         return get_object_vars($this);
     }

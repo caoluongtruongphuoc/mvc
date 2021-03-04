@@ -3,61 +3,40 @@
 namespace App\Models;
 
 use App\Core\Model;
-use App\Config\Database;
 
 class Task extends Model
 {
-    public function create($title, $description)
+    protected $id;
+    protected $title;
+    protected $description;
+
+    public function getId()
     {
-        $sql = "INSERT INTO tasks (title, description, created_at, updated_at) VALUES (:title, :description, :created_at, :updated_at)";
+		return $this->id;
+	}
 
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'title' => $title,
-            'description' => $description,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
-    }
-
-    public function showTask($id)
+	public function setId($id)
     {
-        $sql = "SELECT * FROM tasks WHERE id =" . $id;
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetch();
-    }
+		$this->id = $id;
+	}
 
-    public function showAllTasks()
+	public function getTitle()
     {
-        $sql = "SELECT * FROM tasks";
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetchAll();
-    }
+		return $this->title;
+	}
 
-    public function edit($id, $title, $description)
+	public function setTitle($title)
     {
-        $sql = "UPDATE tasks SET title = :title, description = :description , updated_at = :updated_at WHERE id = :id";
+		$this->title = $title;
+	}
 
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'id' => $id,
-            'title' => $title,
-            'description' => $description,
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
-    }
-
-    public function delete($id)
+	public function getDescription()
     {
-        $sql = 'DELETE FROM tasks WHERE id = ?';
-        $req = Database::getBdd()->prepare($sql);
-        return $req->execute([$id]);
-    }
+		return $this->description;
+	}
+
+	public function setDescription($description)
+    {
+		$this->description = $description;
+	}
 }
-?>
