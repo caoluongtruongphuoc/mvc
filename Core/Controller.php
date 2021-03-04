@@ -4,38 +4,37 @@ namespace App\Core;
 
 class Controller
 {
-    var $vars = [];
-    var $layout = "default";
+    public $vars = [];
+    public $layout = "default";
 
-    function set($d)
+    protected function set($data)
     {
-        $this->vars = array_merge($this->vars, $d);
+        $this->vars = array_merge($this->vars, $data);
     }
 
-    function render($filename)
+    protected function render($filename)
     {
         extract($this->vars);
         ob_start();
-        //App\Controllers\TaskController
+
+        //ví dụ App\Controllers\TaskController
         $path = str_replace(["App\\Controllers", "Controller"],"",get_class($this)); 
         require("../Views/" . $path . "/" . $filename . '.php');
         $content_for_layout = ob_get_clean();
 
-        if ($this->layout == false)
-        {
+        if ($this->layout == false) {
             $content_for_layout;
-        }
-        else
-        {
+        } else {
             require("../Views/Layouts/" . $this->layout . '.php');
         }
     }
 
-    private function secure_input($data)
+    protected function secure_input($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
+
         return $data;
     }
 
@@ -46,5 +45,4 @@ class Controller
             $form[$key] = $this->secure_input($value);
         }
     }
-
 }
