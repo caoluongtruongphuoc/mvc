@@ -41,8 +41,7 @@ class Controller
 
     protected function secure_form($form)
     {
-        foreach ($form as $key => $value)
-        {
+        foreach ($form as $key => $value) {
             $form[$key] = $this->secure_input($value);
         }
     }

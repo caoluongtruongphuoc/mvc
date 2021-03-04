@@ -24,7 +24,7 @@ class TaskRepository
     public function delete($model)
     {
         $taskRs = new TaskResource();
-        
+
         return $taskRs->delete($model);
     }
 
