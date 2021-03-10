@@ -18,7 +18,7 @@ class Controller
         ob_start();
 
         //ví dụ App\Controllers\TaskController
-        $path = str_replace(["App\\Controllers", "Controller"],"",get_class($this)); 
+        $path = str_replace(["App\\Controllers\\", "Controller"],"",get_class($this)); 
         require("../Views/" . $path . "/" . $filename . '.php');
 
         $content_for_layout = ob_get_clean();
